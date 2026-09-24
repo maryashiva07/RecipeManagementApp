@@ -1,0 +1,89 @@
+.custom-btn {
+    min-height: 44px;
+
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.custom-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* PRIMARY */
+
+.custom-btn.primary {
+    background: var(--accent-color);
+    color: #ffffff;
+}
+
+.custom-btn.primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+
+/* SECONDARY */
+
+.custom-btn.secondary {
+    background: var(--bg-secondary);
+
+    color: var(--text-primary);
+
+    border: 1px solid var(--border-color);
+}
+
+.custom-btn.secondary:hover:not(:disabled) {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+
+/* DANGER */
+
+.custom-btn.danger {
+    background: var(--danger-color);
+    color: #ffffff;
+}
+
+
+/* OUTLINE */
+
+.custom-btn.outline {
+    background: transparent;
+
+    color: var(--accent-color);
+
+    border: 1px solid var(--accent-color);
+}
+
+.custom-btn.outline:hover:not(:disabled) {
+    background: var(--accent-color);
+    color: #ffffff;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+    .custom-btn {
+        width: 100%;
+    }
+
+}

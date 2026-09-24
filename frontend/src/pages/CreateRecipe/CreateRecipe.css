@@ -1,0 +1,666 @@
+.create-recipe-page {
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 45px 0 80px;
+  background: var(--bg-secondary);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.create-recipe-header {
+  margin-bottom: 30px;
+}
+
+.create-recipe-badge {
+  display: inline-block;
+
+  padding: 7px 12px;
+  margin-bottom: 12px;
+
+  border-radius: 20px;
+
+  background: var(--accent-light);
+  color: var(--accent-color);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.create-recipe-header h1 {
+  margin: 0 0 8px;
+
+  color: var(--text-primary);
+
+  font-size: 38px;
+  line-height: 1.2;
+}
+
+.create-recipe-header p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 15px;
+}
+
+/* =========================================
+   ALERTS
+========================================= */
+
+.create-alert {
+  padding: 14px 18px;
+
+  margin-bottom: 20px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.create-alert-error {
+  background: rgba(220, 53, 69, 0.1);
+  color: var(--danger-color);
+
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.create-alert-success {
+  background: rgba(25, 135, 84, 0.1);
+  color: var(--success-color);
+
+  border: 1px solid rgba(25, 135, 84, 0.2);
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.create-recipe-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 25px;
+}
+
+.create-form-section {
+  background: var(--bg-primary);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 18px;
+
+  padding: 30px;
+
+  box-shadow: var(--shadow);
+}
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.create-section-title {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 28px;
+}
+
+.create-section-title > span {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: var(--accent-color);
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.create-section-title h2 {
+  margin: 0 0 4px;
+
+  color: var(--text-primary);
+
+  font-size: 21px;
+}
+
+.create-section-title p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+}
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-bottom: 20px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  color: var(--text-primary);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition: 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--accent-color);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group small {
+  color: var(--text-secondary);
+
+  font-size: 11px;
+}
+
+/* =========================================
+   DETAILS GRID
+========================================= */
+
+.recipe-details-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+.recipe-details-grid .form-group {
+  margin-bottom: 0;
+}
+
+/* =========================================
+   DYNAMIC LIST
+========================================= */
+
+.dynamic-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.dynamic-input-row {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.dynamic-number {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--accent-light);
+  color: var(--accent-color);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dynamic-input-row input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 11px 13px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.dynamic-input-row input:focus {
+  border-color: var(--accent-color);
+}
+
+/* =========================================
+   INSTRUCTIONS
+========================================= */
+
+.instruction-input-row {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+}
+
+.instruction-number {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 5px;
+
+  border-radius: 50%;
+
+  background: var(--accent-color);
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.instruction-input-row textarea {
+  flex: 1;
+
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  padding: 11px 13px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+
+  outline: none;
+
+  resize: vertical;
+
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.instruction-input-row textarea:focus {
+  border-color: var(--accent-color);
+}
+
+/* =========================================
+   REMOVE BUTTON
+========================================= */
+
+.remove-item-btn {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+
+  background: transparent;
+  color: var(--danger-color);
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.remove-item-btn:hover:not(:disabled) {
+  background: rgba(220, 53, 69, 0.1);
+  border-color: var(--danger-color);
+}
+
+.remove-item-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.add-item-btn {
+  margin-top: 18px;
+
+  padding: 10px 15px;
+
+  border: 1px dashed var(--accent-color);
+  border-radius: 8px;
+
+  background: var(--accent-light);
+  color: var(--accent-color);
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================
+   IMAGE UPLOAD
+========================================= */
+
+.image-upload-area {
+  width: 100%;
+}
+
+.image-upload-box {
+  min-height: 180px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border: 2px dashed var(--border-color);
+  border-radius: 14px;
+
+  background: var(--bg-secondary);
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.image-upload-box:hover {
+  border-color: var(--accent-color);
+  background: var(--accent-light);
+}
+
+.upload-icon {
+  font-size: 38px;
+
+  margin-bottom: 5px;
+}
+
+.image-upload-box strong {
+  color: var(--text-primary);
+
+  font-size: 15px;
+
+  max-width: 80%;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.image-upload-box span {
+  color: var(--text-secondary);
+
+  font-size: 12px;
+}
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+.selected-image {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-top: 18px;
+
+  padding: 12px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+
+  background: var(--bg-secondary);
+}
+
+.selected-image img {
+  width: 85px;
+  height: 70px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+}
+
+.selected-image > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.selected-image strong {
+  color: var(--text-primary);
+
+  font-size: 13px;
+}
+
+.selected-image p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 11px;
+}
+
+.selected-image button {
+  width: fit-content;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+  color: var(--danger-color);
+
+  cursor: pointer;
+
+  font-size: 11px;
+}
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.create-form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 12px;
+}
+
+.cancel-create-btn,
+.publish-recipe-btn {
+  padding: 12px 22px;
+
+  border-radius: 9px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cancel-create-btn {
+  border: 1px solid var(--border-color);
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.publish-recipe-btn {
+  border: 1px solid var(--accent-color);
+
+  background: var(--accent-color);
+  color: #fff;
+}
+
+.cancel-create-btn:disabled,
+.publish-recipe-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.publish-recipe-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .recipe-details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .create-recipe-page {
+    padding: 30px 0 60px;
+  }
+
+  .create-recipe-header h1 {
+    font-size: 30px;
+  }
+
+  .create-form-section {
+    padding: 22px 18px;
+  }
+
+  .recipe-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recipe-details-grid .form-group {
+    margin-bottom: 20px;
+  }
+
+  .recipe-details-grid .form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .create-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-create-btn,
+  .publish-recipe-btn {
+    width: 100%;
+  }
+
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+  .create-section-title {
+    align-items: flex-start;
+  }
+
+  .create-section-title > span {
+    width: 34px;
+    height: 34px;
+    font-size: 11px;
+  }
+
+  .create-section-title h2 {
+    font-size: 18px;
+  }
+
+  .create-section-title p {
+    font-size: 12px;
+  }
+
+  .dynamic-input-row,
+  .instruction-input-row {
+    gap: 7px;
+  }
+
+  .dynamic-number,
+  .instruction-number {
+    width: 30px;
+    height: 30px;
+  }
+
+  .remove-item-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .selected-image {
+    align-items: flex-start;
+  }
+
+}
+

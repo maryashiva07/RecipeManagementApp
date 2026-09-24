@@ -1,0 +1,316 @@
+.navbar {
+    width: 100%;
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-container {
+    width: min(1200px, 92%);
+    height: 100%;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* ================= LOGO ================= */
+
+.navbar-logo {
+    text-decoration: none;
+
+    font-size: 25px;
+    font-weight: 800;
+
+    color: var(--text-primary);
+
+    white-space: nowrap;
+}
+
+.navbar-logo span {
+    color: var(--accent-color);
+}
+
+
+/* ================= NAV MENU ================= */
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-link {
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    color: var(--text-secondary);
+
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+}
+
+.create-link {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+
+/* ================= RIGHT ACTIONS ================= */
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* ================= THEME ================= */
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+
+    background: var(--bg-secondary);
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: rotate(15deg);
+}
+
+
+/* ================= AUTH ================= */
+
+.desktop-auth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.login-btn,
+.register-btn,
+.logout-btn,
+.admin-btn,
+.profile-btn {
+    text-decoration: none;
+
+    border: none;
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    border-radius: 8px;
+
+    transition: all 0.2s ease;
+}
+
+.login-btn {
+    padding: 9px 15px;
+    color: var(--text-primary);
+}
+
+.login-btn:hover {
+    color: var(--accent-color);
+}
+
+.register-btn {
+    padding: 9px 16px;
+
+    background: var(--accent-color);
+    color: #ffffff;
+}
+
+.register-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.logout-btn {
+    padding: 9px 15px;
+
+    background: transparent;
+    color: var(--text-secondary);
+
+    border: 1px solid var(--border-color);
+}
+
+.logout-btn:hover {
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.profile-btn {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.admin-btn {
+    padding: 8px 12px;
+    color: var(--accent-color);
+}
+
+
+/* ================= MOBILE ================= */
+
+.mobile-auth {
+    display: none;
+}
+
+.hamburger {
+    display: none;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.hamburger span {
+    display: block;
+
+    width: 24px;
+    height: 2px;
+
+    background: var(--text-primary);
+
+    transition: all 0.3s ease;
+}
+
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1000px) {
+
+    .nav-menu {
+        gap: 15px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+
+    .desktop-auth {
+        gap: 4px;
+    }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        height: 65px;
+    }
+
+    .navbar-container {
+        width: 94%;
+    }
+
+    .navbar-logo {
+        font-size: 22px;
+    }
+
+    .desktop-auth {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: absolute;
+
+        top: 65px;
+        left: 0;
+
+        width: 100%;
+
+        padding: 20px;
+
+        background: var(--bg-primary);
+
+        border-bottom: 1px solid var(--border-color);
+
+        display: none;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+
+        box-shadow: var(--shadow);
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-menu .nav-link {
+        padding: 14px 5px;
+
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .mobile-auth {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        margin-top: 10px;
+    }
+
+    .mobile-auth .logout-btn {
+        width: 100%;
+    }
+
+    .mobile-auth .register-btn {
+        text-align: center;
+    }
+
+}
