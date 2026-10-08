@@ -19,7 +19,7 @@ const startServer = async () => {
 
     console.log("All models synchronized successfully");
 
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on PORT:${PORT}`);
     });
   } catch (error) {
