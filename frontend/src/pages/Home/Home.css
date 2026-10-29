@@ -5,26 +5,14 @@
   color: var(--text-primary);
 }
 
-/* =========================
-   HERO
-========================= */
-
 .home-hero {
   position: relative;
   overflow: hidden;
   padding: 85px 0 95px;
 
   background:
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(232, 93, 4, 0.14),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      var(--bg-secondary),
-      var(--bg-primary)
-    );
+    radial-gradient(circle at 85% 20%, rgba(232, 93, 4, 0.14), transparent 35%),
+    linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
 
   border-bottom: 1px solid var(--border-color);
 }
@@ -120,20 +108,10 @@
   color: var(--text-secondary);
 }
 
-
-/* =========================
-   HOME CONTENT
-========================= */
-
 .home-content {
   padding-top: 60px;
   padding-bottom: 80px;
 }
-
-
-/* =========================
-   SECTION TITLE
-========================= */
 
 .section-title {
   margin-bottom: 25px;
@@ -156,11 +134,6 @@
 
   font-size: 15px;
 }
-
-
-/* =========================
-   CATEGORIES
-========================= */
 
 .categories-section {
   margin-bottom: 60px;
@@ -211,11 +184,6 @@
   box-shadow: 0 7px 18px rgba(232, 93, 4, 0.2);
 }
 
-
-/* =========================
-   RECIPES
-========================= */
-
 .recipes-section {
   width: 100%;
 }
@@ -223,24 +191,12 @@
 .recipes-grid {
   display: grid;
 
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 
   gap: 28px;
 
   width: 100%;
 }
-
-
-/* =========================
-   RECIPE CARD IMAGE FIX
-========================= */
-
-/*
-   RecipeCard ka actual image class
-   agar .recipe-card-image hai to
-   ye styling directly apply hogi.
-*/
 
 .recipe-card-image {
   width: 100%;
@@ -258,10 +214,7 @@
   transform: scale(1.04);
 }
 
-
-/* =========================
-   ERROR
-========================= */
+/* ERROR */
 
 .home-error {
   padding: 20px;
@@ -279,10 +232,7 @@
   font-weight: 600;
 }
 
-
-/* =========================
-   EMPTY
-========================= */
+/* EMPTY */
 
 .home-empty {
   padding: 70px 20px;
@@ -318,10 +268,7 @@
   color: var(--text-secondary);
 }
 
-
-/* =========================
-   PAGINATION
-========================= */
+/* PAGINATION */
 
 .pagination {
   display: flex;
@@ -377,20 +324,15 @@
   font-weight: 600;
 }
 
-
-/* =========================
-   TABLET
-========================= */
+/* TABLET */
 
 @media (max-width: 1000px) {
-
   .home-hero {
     padding: 70px 0 80px;
   }
 
   .recipes-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 
     gap: 22px;
   }
@@ -398,16 +340,11 @@
   .home-content {
     padding-top: 50px;
   }
-
 }
 
-
-/* =========================
-   MOBILE
-========================= */
+/*  MOBILE */
 
 @media (max-width: 650px) {
-
   .home-hero {
     padding: 55px 0 65px;
   }
@@ -489,16 +426,11 @@
   .pagination button {
     padding: 9px 14px;
   }
-
 }
 
-
-/* =========================
-   SMALL MOBILE
-========================= */
+/* SMALL MOBILE */
 
 @media (max-width: 400px) {
-
   .home-hero {
     padding: 45px 0 55px;
   }
@@ -518,5 +450,4 @@
   .recipe-card-image {
     height: 200px;
   }
-
 }

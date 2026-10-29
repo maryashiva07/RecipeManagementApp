@@ -4,10 +4,6 @@
   background: var(--bg-secondary);
 }
 
-/* =========================================
-   ALERTS
-========================================= */
-
 .profile-alert {
   padding: 14px 18px;
   border-radius: 10px;
@@ -28,10 +24,6 @@
   border: 1px solid rgba(25, 135, 84, 0.2);
 }
 
-/* =========================================
-   PROFILE HEADER
-========================================= */
-
 .profile-header {
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
@@ -49,10 +41,6 @@
   align-items: center;
   gap: 25px;
 }
-
-/* =========================================
-   AVATAR
-========================================= */
 
 .profile-avatar-wrapper {
   flex-shrink: 0;
@@ -78,10 +66,6 @@
   font-weight: 700;
 }
 
-/* =========================================
-   PROFILE INFO
-========================================= */
-
 .profile-info h1 {
   margin: 0 0 6px;
   font-size: 32px;
@@ -100,10 +84,6 @@
   max-width: 600px;
   line-height: 1.6;
 }
-
-/* =========================================
-   STATS
-========================================= */
 
 .profile-stats {
   display: flex;
@@ -126,10 +106,6 @@
   color: var(--text-secondary);
 }
 
-/* =========================================
-   EDIT BUTTON
-========================================= */
-
 .profile-edit-btn {
   border: 1px solid var(--border-color);
   background: var(--bg-primary);
@@ -151,10 +127,6 @@
   color: #fff;
 }
 
-/* =========================================
-   EDIT PROFILE
-========================================= */
-
 .profile-edit-section {
   margin-top: 30px;
 
@@ -165,10 +137,6 @@
   padding: 30px;
   box-shadow: var(--shadow);
 }
-
-/* =========================================
-   SECTION HEADING
-========================================= */
 
 .section-heading {
   display: flex;
@@ -190,10 +158,6 @@
   color: var(--text-secondary);
   font-size: 14px;
 }
-
-/* =========================================
-   FORM
-========================================= */
 
 .profile-form {
   width: 100%;
@@ -258,10 +222,6 @@
   font-size: 12px;
 }
 
-/* =========================================
-   FORM ACTIONS
-========================================= */
-
 .profile-form-actions {
   display: flex;
   gap: 12px;
@@ -305,10 +265,6 @@
   opacity: 0.8;
 }
 
-/* =========================================
-   SECTIONS
-========================================= */
-
 .profile-section {
   margin-top: 40px;
 }
@@ -325,19 +281,11 @@
   text-decoration: underline;
 }
 
-/* =========================================
-   RECIPE GRID
-========================================= */
-
 .profile-recipe-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 22px;
 }
-
-/* =========================================
-   EMPTY STATE
-========================================= */
 
 .empty-section {
   background: var(--bg-primary);
@@ -386,10 +334,6 @@
 .profile-action-link:hover {
   opacity: 0.9;
 }
-
-/* =========================================
-   SOCIAL SECTION
-========================================= */
 
 .profile-social-section {
   margin-top: 40px;
@@ -444,10 +388,6 @@
   font-size: 13px;
 }
 
-/* =========================================
-   ERROR
-========================================= */
-
 .profile-error {
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
@@ -480,24 +420,17 @@
   font-weight: 600;
 }
 
-/* =========================================
-   TABLET
-========================================= */
+/* TABLET */
 
 @media (max-width: 1000px) {
-
   .profile-recipe-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-
 }
 
-/* =========================================
-   MOBILE
-========================================= */
+/* MOBILE */
 
 @media (max-width: 768px) {
-
   .profile-page {
     padding: 30px 0 60px;
   }
@@ -553,15 +486,11 @@
   .section-heading {
     align-items: flex-start;
   }
-
 }
 
-/* =========================================
-   SMALL MOBILE
-========================================= */
+/* SMALL MOBILE */
 
 @media (max-width: 500px) {
-
   .profile-avatar {
     width: 105px;
     height: 105px;
@@ -604,5 +533,335 @@
     flex-direction: column;
     gap: 10px;
   }
+}
 
+
+
+/* Clickable social stats */
+
+.profile-stat-clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.profile-stat-clickable:hover {
+  transform: translateY(-2px);
+}
+
+
+/* Clickable social cards */
+
+.social-card-clickable {
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.social-card-clickable:hover {
+  transform: translateY(-3px);
+}
+
+
+/* Social modal */
+
+.social-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 1000;
+}
+
+
+.social-modal {
+  width: 100%;
+  max-width: 500px;
+
+  max-height: 80vh;
+
+  background: var(--card-bg, #ffffff);
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Modal header */
+
+.social-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 22px;
+
+  border-bottom: 1px solid
+    rgba(0, 0, 0, 0.08);
+}
+
+
+.social-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+
+.social-modal-close {
+  border: none;
+  background: transparent;
+
+  font-size: 28px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  padding: 4px 8px;
+
+  color: inherit;
+}
+
+
+/* Modal body */
+
+.social-modal-body {
+  max-height: calc(80vh - 70px);
+
+  overflow-y: auto;
+
+  padding: 10px 0;
+}
+
+
+/* User */
+
+.social-user-item {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 14px 20px;
+
+  border-bottom: 1px solid
+    rgba(0, 0, 0, 0.06);
+}
+
+
+.social-user-item:last-child {
+  border-bottom: none;
+}
+
+
+.social-user-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: 0;
+}
+
+
+/* Avatar */
+
+.social-user-avatar {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  background: #e8e8e8;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  font-size: 18px;
+}
+
+
+.social-user-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+.social-user-avatar span {
+  width: 100%;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* User details */
+
+.social-user-details {
+  min-width: 0;
+}
+
+
+.social-user-details strong {
+  display: block;
+
+  font-size: 15px;
+
+  margin-bottom: 3px;
+}
+
+
+.social-user-details p {
+  margin: 0;
+
+  font-size: 13px;
+
+  opacity: 0.65;
+
+  max-width: 230px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* Follow button */
+
+.social-follow-btn {
+  border: none;
+
+  background: #111;
+
+  color: white;
+
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+
+.social-follow-btn:hover {
+  opacity: 0.85;
+}
+
+
+.social-follow-btn.following {
+  background: transparent;
+
+  color: #111;
+
+  border: 1px solid #ccc;
+}
+
+
+.social-follow-btn:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+/* Empty */
+
+.social-empty {
+  padding: 45px 20px;
+
+  text-align: center;
+
+  opacity: 0.7;
+}
+
+
+.social-empty div {
+  font-size: 35px;
+
+  margin-bottom: 10px;
+}
+
+
+.social-empty p {
+  margin: 0;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .social-modal-overlay {
+    padding: 12px;
+  }
+
+  .social-modal {
+    max-height: 85vh;
+    border-radius: 14px;
+  }
+
+  .social-user-item {
+    padding: 12px 14px;
+  }
+
+  .social-user-details p {
+    max-width: 130px;
+  }
+
+  .social-follow-btn {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+}
+
+
+
+.social-modal {
+  width: 100%;
+  max-width: 500px;
+
+  max-height: 80vh;
+
+  background: var(--card-bg, #ffffff);
+
+  color: #222222;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.25);
 }

@@ -1,3 +1,200 @@
+// import { useEffect, useState } from "react";
+// import { Link } from "react-router-dom";
+
+// import Loader from "../../components/Loader/Loader";
+
+// import { getFeed } from "../../services/socialService";
+
+// import "./Feed.css";
+
+// const Feed = () => {
+//   const [activities, setActivities] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+
+//   const fetchFeed = async () => {
+//     try {
+//       setLoading(true);
+//       setError("");
+
+//       const response = await getFeed();
+
+//       setActivities(response.activities || response.data || []);
+//     } catch (error) {
+//       console.error("Feed fetch error:", error);
+
+//       setError(error.response?.data?.message || "Unable to load your feed.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchFeed();
+//   }, []);
+
+//   const getActivityText = (activity) => {
+//     switch (activity.type) {
+//       case "RECIPE_CREATED":
+//       case "recipe_created":
+//       case "CREATE_RECIPE":
+//         return "created a new recipe";
+
+//       case "REVIEW_CREATED":
+//       case "review_created":
+//       case "CREATE_REVIEW":
+//         return "reviewed a recipe";
+
+//       case "RECIPE_UPDATED":
+//       case "recipe_updated":
+//         return "updated a recipe";
+
+//       default:
+//         return "performed an activity";
+//     }
+//   };
+
+//   const getActivityRecipe = (activity) => {
+//     return activity.recipe || activity.Recipe || activity.recipeData || null;
+//   };
+
+//   const getActivityUser = (activity) => {
+//     return activity.user || activity.User || null;
+//   };
+
+//   const getImageUrl = (image) => {
+//     if (!image) {
+//       return "";
+//     }
+
+//     if (image.startsWith("http://") || image.startsWith("https://")) {
+//       return image;
+//     }
+
+//     const cleanPath = image.replace(/^\/+/, "");
+
+//     return `http://localhost:5000/${cleanPath}`;
+//   };
+
+//   const formatDate = (date) => {
+//     if (!date) return "";
+
+//     return new Date(date).toLocaleString("en-IN", {
+//       day: "numeric",
+//       month: "short",
+//       year: "numeric",
+//       hour: "numeric",
+//       minute: "2-digit",
+//     });
+//   };
+
+//   if (loading) {
+//     return (
+//       <div className="feed-page">
+//         <Loader text="Loading your feed..." />
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="feed-page">
+//       <div className="feed-container">
+//         <div className="feed-header">
+//           <span className="feed-badge">Community Activity</span>
+
+//           <h1>Your Feed</h1>
+
+//           <p>See the latest recipe activity from people you follow.</p>
+//         </div>
+
+//         {error && <div className="feed-error">{error}</div>}
+
+//         {activities.length === 0 ? (
+//           <div className="feed-empty">
+//             <div className="feed-empty-icon">📰</div>
+
+//             <h2>Your Feed is Empty</h2>
+
+//             <p>
+//               Follow other food creators to see their latest recipe activities
+//               here.
+//             </p>
+//           </div>
+//         ) : (
+//           <div className="feed-list">
+//             {activities.map((activity, index) => {
+//               const user = getActivityUser(activity);
+//               const recipe = getActivityRecipe(activity);
+
+//               return (
+//                 <article className="activity-card" key={activity.id || index}>
+//                   <div className="activity-avatar">
+//                     {user?.profileImage ? (
+//                       <img
+//                         src={getImageUrl(user.profileImage)}
+//                         alt={user.name || "User"}
+//                         onError={(e) => {
+//                           e.currentTarget.style.display = "none";
+//                         }}
+//                       />
+//                     ) : (
+//                       <span>{(user?.name || "U").charAt(0).toUpperCase()}</span>
+//                     )}
+//                   </div>
+
+//                   <div className="activity-content">
+//                     <div className="activity-text">
+//                       <strong>{user?.name || "Someone"}</strong>{" "}
+//                       {getActivityText(activity)}
+//                     </div>
+
+//                     <div className="activity-date">
+//                       {formatDate(activity.createdAt)}
+//                     </div>
+
+//                     {recipe && (
+//                       <Link
+//                         to={`/recipes/${recipe.id}`}
+//                         className="activity-recipe"
+//                       >
+//                         {recipe.image ? (
+//                           <img
+//                             src={getImageUrl(recipe.image)}
+//                             alt={recipe.title || "Recipe"}
+//                             onError={(e) => {
+//                               e.currentTarget.style.display = "none";
+//                             }}
+//                           />
+//                         ) : (
+//                           <div className="activity-recipe-placeholder">🍲</div>
+//                         )}
+
+//                         <div>
+//                           <h3>{recipe.title}</h3>
+
+//                           {recipe.description && <p>{recipe.description}</p>}
+//                         </div>
+//                       </Link>
+//                     )}
+//                   </div>
+//                 </article>
+//               );
+//             })}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Feed;
+
+
+
+
+
+
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,6 +203,11 @@ import Loader from "../../components/Loader/Loader";
 import { getFeed } from "../../services/socialService";
 
 import "./Feed.css";
+
+// Backend URL from .env
+const BACKEND_URL = (
+  import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"
+).replace(/\/+$/, "");
 
 const Feed = () => {
   const [activities, setActivities] = useState([]);
@@ -19,11 +221,7 @@ const Feed = () => {
 
       const response = await getFeed();
 
-      setActivities(
-        response.activities ||
-          response.data ||
-          []
-      );
+      setActivities(response.activities || response.data || []);
     } catch (error) {
       console.error("Feed fetch error:", error);
 
@@ -40,7 +238,7 @@ const Feed = () => {
     fetchFeed();
   }, []);
 
-  const getActivityText = activity => {
+  const getActivityText = (activity) => {
     switch (activity.type) {
       case "RECIPE_CREATED":
       case "recipe_created":
@@ -61,7 +259,7 @@ const Feed = () => {
     }
   };
 
-  const getActivityRecipe = activity => {
+  const getActivityRecipe = (activity) => {
     return (
       activity.recipe ||
       activity.Recipe ||
@@ -70,27 +268,48 @@ const Feed = () => {
     );
   };
 
-  const getActivityUser = activity => {
-    return (
-      activity.user ||
-      activity.User ||
-      null
-    );
+  const getActivityUser = (activity) => {
+    return activity.user || activity.User || null;
   };
 
-  const formatDate = date => {
-    if (!date) return "";
+  // Convert relative image paths into backend URLs
+  const getImageUrl = (image) => {
+    if (!image || typeof image !== "string") {
+      return "";
+    }
 
-    return new Date(date).toLocaleString(
-      "en-IN",
-      {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        hour: "numeric",
-        minute: "2-digit"
-      }
-    );
+    // If the image already has an absolute URL, use it
+    if (/^https?:\/\//i.test(image)) {
+      return image;
+    }
+
+    // Handle paths such as:
+    // uploads/profiles/user.jpg
+    // uploads/recipes/recipe.jpg
+    // /uploads/recipes/recipe.jpg
+    const cleanPath = image.replace(/^\/+/, "");
+
+    return `${BACKEND_URL}/${cleanPath}`;
+  };
+
+  const formatDate = (date) => {
+    if (!date) {
+      return "";
+    }
+
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return "";
+    }
+
+    return parsedDate.toLocaleString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
   };
 
   if (loading) {
@@ -104,7 +323,6 @@ const Feed = () => {
   return (
     <div className="feed-page">
       <div className="feed-container">
-
         <div className="feed-header">
           <span className="feed-badge">
             Community Activity
@@ -113,122 +331,145 @@ const Feed = () => {
           <h1>Your Feed</h1>
 
           <p>
-            See the latest recipe activity from people
-            you follow.
+            See the latest recipe activity from people you follow.
           </p>
         </div>
 
         {error && (
           <div className="feed-error">
             {error}
+            <button type="button" onClick={fetchFeed}>
+              Try Again
+            </button>
           </div>
         )}
 
-        {activities.length === 0 ? (
+        {activities.length === 0 && !error ? (
           <div className="feed-empty">
-
-            <div className="feed-empty-icon">
-              📰
-            </div>
+            <div className="feed-empty-icon">📰</div>
 
             <h2>Your Feed is Empty</h2>
 
             <p>
-              Follow other food creators to see their
-              latest recipe activities here.
+              Follow other food creators to see their latest recipe
+              activities here.
             </p>
-
           </div>
         ) : (
-          <div className="feed-list">
+          activities.length > 0 && (
+            <div className="feed-list">
+              {activities.map((activity, index) => {
+                const user = getActivityUser(activity);
+                const recipe = getActivityRecipe(activity);
 
-            {activities.map((activity, index) => {
-              const user = getActivityUser(activity);
-              const recipe = getActivityRecipe(activity);
+                const userImage = getImageUrl(user?.profileImage);
+                const recipeImage = getImageUrl(recipe?.image);
 
-              return (
-                <article
-                  className="activity-card"
-                  key={activity.id || index}
-                >
+                return (
+                  <article
+                    className="activity-card"
+                    key={activity.id || index}
+                  >
+                    <div className="activity-avatar">
+                      {userImage ? (
+                        <>
+                          <img
+                            src={userImage}
+                            alt={user?.name || "User"}
+                            onError={(event) => {
+                              event.currentTarget.style.display = "none";
 
-                  <div className="activity-avatar">
-                    {user?.profileImage ? (
-                      <img
-                        src={
-                          user.profileImage.startsWith("http")
-                            ? user.profileImage
-                            : `http://localhost:5000/${user.profileImage}`
-                        }
-                        alt={user.name || "User"}
-                      />
-                    ) : (
-                      <span>
-                        {(user?.name || "U")
-                          .charAt(0)
-                          .toUpperCase()}
-                      </span>
-                    )}
-                  </div>
+                              const placeholder =
+                                event.currentTarget.nextElementSibling;
 
-                  <div className="activity-content">
+                              if (placeholder) {
+                                placeholder.style.display = "flex";
+                              }
+                            }}
+                          />
 
-                    <div className="activity-text">
-                      <strong>
-                        {user?.name || "Someone"}
-                      </strong>{" "}
-                      {getActivityText(activity)}
-                    </div>
-
-                    <div className="activity-date">
-                      {formatDate(
-                        activity.createdAt
+                          <span style={{ display: "none" }}>
+                            {(user?.name || "U")
+                              .charAt(0)
+                              .toUpperCase()}
+                          </span>
+                        </>
+                      ) : (
+                        <span>
+                          {(user?.name || "U")
+                            .charAt(0)
+                            .toUpperCase()}
+                        </span>
                       )}
                     </div>
 
-                    {recipe && (
-                      <Link
-                        to={`/recipes/${recipe.id}`}
-                        className="activity-recipe"
-                      >
+                    <div className="activity-content">
+                      <div className="activity-text">
+                        <strong>
+                          {user?.name || "Someone"}
+                        </strong>{" "}
+                        {getActivityText(activity)}
+                      </div>
 
-                        {recipe.image ? (
-                          <img
-                            src={
-                              recipe.image.startsWith("http")
-                                ? recipe.image
-                                : `http://localhost:5000/${recipe.image}`
-                            }
-                            alt={recipe.title}
-                          />
-                        ) : (
-                          <div className="activity-recipe-placeholder">
-                            🍲
+                      <div className="activity-date">
+                        {formatDate(activity.createdAt)}
+                      </div>
+
+                      {recipe && (
+                        <Link
+                          to={`/recipes/${recipe.id}`}
+                          className="activity-recipe"
+                        >
+                          <div className="activity-recipe-image">
+                            {recipeImage ? (
+                              <>
+                                <img
+                                  src={recipeImage}
+                                  alt={recipe.title || "Recipe"}
+                                  onError={(event) => {
+                                    event.currentTarget.style.display =
+                                      "none";
+
+                                    const placeholder =
+                                      event.currentTarget
+                                        .nextElementSibling;
+
+                                    if (placeholder) {
+                                      placeholder.style.display = "flex";
+                                    }
+                                  }}
+                                />
+
+                                <div
+                                  className="activity-recipe-placeholder"
+                                  style={{ display: "none" }}
+                                >
+                                  🍲
+                                </div>
+                              </>
+                            ) : (
+                              <div className="activity-recipe-placeholder">
+                                🍲
+                              </div>
+                            )}
                           </div>
-                        )}
 
-                        <div>
-                          <h3>{recipe.title}</h3>
+                          <div>
+                            <h3>{recipe.title || "Untitled Recipe"}</h3>
 
-                          {recipe.description && (
-                            <p>
-                              {recipe.description}
-                            </p>
-                          )}
-                        </div>
-
-                      </Link>
-                    )}
-
-                  </div>
-
-                </article>
-              );
-            })}
-
-          </div>
+                            {recipe.description && (
+                              <p>{recipe.description}</p>
+                            )}
+                          </div>
+                        </Link>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )
         )}
-
       </div>
     </div>
   );

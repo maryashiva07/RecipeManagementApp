@@ -4,9 +4,7 @@
   background: var(--bg-secondary);
 }
 
-/* =========================================
-   HEADER
-========================================= */
+/* HEADER */
 
 .create-recipe-header {
   margin-bottom: 30px;
@@ -44,10 +42,6 @@
   font-size: 15px;
 }
 
-/* =========================================
-   ALERTS
-========================================= */
-
 .create-alert {
   padding: 14px 18px;
 
@@ -73,10 +67,6 @@
   border: 1px solid rgba(25, 135, 84, 0.2);
 }
 
-/* =========================================
-   FORM
-========================================= */
-
 .create-recipe-form {
   display: flex;
   flex-direction: column;
@@ -95,10 +85,6 @@
 
   box-shadow: var(--shadow);
 }
-
-/* =========================================
-   SECTION TITLE
-========================================= */
 
 .create-section-title {
   display: flex;
@@ -143,10 +129,6 @@
 
   font-size: 13px;
 }
-
-/* =========================================
-   FORM GROUP
-========================================= */
 
 .form-group {
   display: flex;
@@ -206,10 +188,6 @@
   font-size: 11px;
 }
 
-/* =========================================
-   DETAILS GRID
-========================================= */
-
 .recipe-details-grid {
   display: grid;
 
@@ -221,10 +199,6 @@
 .recipe-details-grid .form-group {
   margin-bottom: 0;
 }
-
-/* =========================================
-   DYNAMIC LIST
-========================================= */
 
 .dynamic-list {
   display: flex;
@@ -282,10 +256,6 @@
   border-color: var(--accent-color);
 }
 
-/* =========================================
-   INSTRUCTIONS
-========================================= */
-
 .instruction-input-row {
   display: flex;
   align-items: flex-start;
@@ -341,10 +311,6 @@
   border-color: var(--accent-color);
 }
 
-/* =========================================
-   REMOVE BUTTON
-========================================= */
-
 .remove-item-btn {
   width: 34px;
   height: 34px;
@@ -374,10 +340,6 @@
   cursor: not-allowed;
 }
 
-/* =========================================
-   ADD BUTTON
-========================================= */
-
 .add-item-btn {
   margin-top: 18px;
 
@@ -394,10 +356,6 @@
   font-size: 13px;
   font-weight: 600;
 }
-
-/* =========================================
-   IMAGE UPLOAD
-========================================= */
 
 .image-upload-area {
   width: 100%;
@@ -452,10 +410,6 @@
 
   font-size: 12px;
 }
-
-/* =========================================
-   IMAGE PREVIEW
-========================================= */
 
 .selected-image {
   display: flex;
@@ -518,10 +472,6 @@
   font-size: 11px;
 }
 
-/* =========================================
-   ACTIONS
-========================================= */
-
 .create-form-actions {
   display: flex;
   justify-content: flex-end;
@@ -565,24 +515,17 @@
   opacity: 0.9;
 }
 
-/* =========================================
-   TABLET
-========================================= */
+/* TABLET */
 
 @media (max-width: 900px) {
-
   .recipe-details-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
 }
 
-/* =========================================
-   MOBILE
-========================================= */
+/* MOBILE*/
 
 @media (max-width: 768px) {
-
   .create-recipe-page {
     padding: 30px 0 60px;
   }
@@ -615,15 +558,11 @@
   .publish-recipe-btn {
     width: 100%;
   }
-
 }
 
-/* =========================================
-   SMALL MOBILE
-========================================= */
+/* SMALL MOBILE */
 
 @media (max-width: 500px) {
-
   .create-section-title {
     align-items: flex-start;
   }
@@ -661,6 +600,4 @@
   .selected-image {
     align-items: flex-start;
   }
-
 }
-

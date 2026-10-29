@@ -50,6 +50,31 @@ const getMyProfile = async (req, res) => {
   }
 };
 
+// GET ALL USERS
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: ["id", "name", "bio", "profileImage", "createdAt"],
+
+      order: [["name", "ASC"]],
+    });
+
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      users,
+    });
+  } catch (error) {
+    console.error("Get all users error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch users",
+    });
+  }
+};
+
 // UPDATE PROFILE
 
 const updateProfile = async (req, res) => {
@@ -71,6 +96,12 @@ const updateProfile = async (req, res) => {
 
     if (bio !== undefined) {
       user.bio = bio;
+    }
+
+    // Save uploaded profile image
+
+    if (req.file) {
+      user.profileImage = `uploads/profiles/${req.file.filename}`;
     }
 
     await user.save();
@@ -194,6 +225,7 @@ const getMyFavorites = async (req, res) => {
 
 module.exports = {
   getMyProfile,
+  getAllUsers,
   updateProfile,
   getUserById,
   getUserRecipes,

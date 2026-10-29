@@ -16,7 +16,7 @@ const CreateRecipe = () => {
     servings: "",
     difficulty: "Easy",
     category: "",
-    dietaryType: ""
+    dietaryType: "",
   });
 
   const [ingredients, setIngredients] = useState([""]);
@@ -28,22 +28,14 @@ const CreateRecipe = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // =========================================
-  // Normal input change
-  // =========================================
-
   const handleChange = (event) => {
     const { name, value } = event.target;
 
     setFormData((previous) => ({
       ...previous,
-      [name]: value
+      [name]: value,
     }));
   };
-
-  // =========================================
-  // Ingredient change
-  // =========================================
 
   const handleIngredientChange = (index, value) => {
     setIngredients((previous) => {
@@ -55,20 +47,11 @@ const CreateRecipe = () => {
     });
   };
 
-  // =========================================
   // Add ingredient
-  // =========================================
 
   const addIngredient = () => {
-    setIngredients((previous) => [
-      ...previous,
-      ""
-    ]);
+    setIngredients((previous) => [...previous, ""]);
   };
-
-  // =========================================
-  // Remove ingredient
-  // =========================================
 
   const removeIngredient = (index) => {
     if (ingredients.length === 1) {
@@ -76,13 +59,9 @@ const CreateRecipe = () => {
     }
 
     setIngredients((previous) =>
-      previous.filter((_, itemIndex) => itemIndex !== index)
+      previous.filter((_, itemIndex) => itemIndex !== index),
     );
   };
-
-  // =========================================
-  // Instruction change
-  // =========================================
 
   const handleInstructionChange = (index, value) => {
     setInstructions((previous) => {
@@ -94,20 +73,9 @@ const CreateRecipe = () => {
     });
   };
 
-  // =========================================
-  // Add instruction
-  // =========================================
-
   const addInstruction = () => {
-    setInstructions((previous) => [
-      ...previous,
-      ""
-    ]);
+    setInstructions((previous) => [...previous, ""]);
   };
-
-  // =========================================
-  // Remove instruction
-  // =========================================
 
   const removeInstruction = (index) => {
     if (instructions.length === 1) {
@@ -115,13 +83,11 @@ const CreateRecipe = () => {
     }
 
     setInstructions((previous) =>
-      previous.filter((_, itemIndex) => itemIndex !== index)
+      previous.filter((_, itemIndex) => itemIndex !== index),
     );
   };
 
-  // =========================================
   // Image change
-  // =========================================
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -140,9 +106,7 @@ const CreateRecipe = () => {
     setImage(file);
   };
 
-  // =========================================
   // Submit
-  // =========================================
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -152,9 +116,7 @@ const CreateRecipe = () => {
       setError("");
       setSuccess("");
 
-      // -------------------------------
       // Basic validation
-      // -------------------------------
 
       if (!formData.title.trim()) {
         setError("Recipe title is required.");
@@ -184,97 +146,54 @@ const CreateRecipe = () => {
         return;
       }
 
-      // -------------------------------
       // Create FormData
-      // -------------------------------
 
       const data = new FormData();
 
-      data.append(
-        "title",
-        formData.title.trim()
-      );
+      data.append("title", formData.title.trim());
 
-      data.append(
-        "description",
-        formData.description.trim()
-      );
+      data.append("description", formData.description.trim());
 
-      data.append(
-        "prepTime",
-        formData.prepTime
-      );
+      data.append("prepTime", formData.prepTime);
 
-      data.append(
-        "cookingTime",
-        formData.cookingTime
-      );
+      data.append("cookingTime", formData.cookingTime);
 
-      data.append(
-        "servings",
-        formData.servings
-      );
+      data.append("servings", formData.servings);
 
-      data.append(
-        "difficulty",
-        formData.difficulty
-      );
+      data.append("difficulty", formData.difficulty);
 
-      data.append(
-        "category",
-        formData.category.trim()
-      );
+      data.append("category", formData.category.trim());
 
-      data.append(
-        "dietaryType",
-        formData.dietaryType
-      );
+      data.append("dietaryType", formData.dietaryType);
 
       // Backend parses these JSON strings
-      data.append(
-        "ingredients",
-        JSON.stringify(validIngredients)
-      );
+      data.append("ingredients", JSON.stringify(validIngredients));
 
-      data.append(
-        "instructions",
-        JSON.stringify(validInstructions)
-      );
+      data.append("instructions", JSON.stringify(validInstructions));
 
       if (image) {
         data.append("image", image);
       }
 
-      // -------------------------------
       // API call
-      // -------------------------------
 
       const response = await createRecipe(data);
 
       setSuccess("Recipe created successfully.");
 
-      const createdRecipe =
-        response.recipe ||
-        response.data ||
-        response;
+      const createdRecipe = response.recipe || response.data || response;
 
-      // -------------------------------
       // Redirect to recipe details
-      // -------------------------------
 
       if (createdRecipe?.id) {
         navigate(`/recipes/${createdRecipe.id}`);
       } else {
         navigate("/");
       }
-
     } catch (err) {
       console.error("Create recipe error:", err);
 
-      setError(
-        err.response?.data?.message ||
-        "Unable to create recipe."
-      );
+      setError(err.response?.data?.message || "Unable to create recipe.");
     } finally {
       setLoading(false);
     }
@@ -282,85 +201,43 @@ const CreateRecipe = () => {
 
   return (
     <div className="create-recipe-page">
-
       <div className="container">
-
-        {/* ================================= */}
         {/* Header */}
-        {/* ================================= */}
 
         <div className="create-recipe-header">
-
           <div>
-            <span className="create-recipe-badge">
-              🍳 Recipe Creator
-            </span>
+            <span className="create-recipe-badge">🍳 Recipe Creator</span>
 
-            <h1>
-              Create a New Recipe
-            </h1>
+            <h1>Create a New Recipe</h1>
 
-            <p>
-              Share your favorite recipe with the RecipeHub community.
-            </p>
+            <p>Share your favorite recipe with the RecipeHub community.</p>
           </div>
-
         </div>
 
-        {/* ================================= */}
-        {/* Alerts */}
-        {/* ================================= */}
-
         {error && (
-          <div className="create-alert create-alert-error">
-            {error}
-          </div>
+          <div className="create-alert create-alert-error">{error}</div>
         )}
 
         {success && (
-          <div className="create-alert create-alert-success">
-            {success}
-          </div>
+          <div className="create-alert create-alert-success">{success}</div>
         )}
 
-        {/* ================================= */}
         {/* Form */}
-        {/* ================================= */}
 
-        <form
-          className="create-recipe-form"
-          onSubmit={handleSubmit}
-        >
-
-          {/* ================================= */}
-          {/* Basic Information */}
-          {/* ================================= */}
-
+        <form className="create-recipe-form" onSubmit={handleSubmit}>
           <section className="create-form-section">
-
             <div className="create-section-title">
-
-              <span>
-                01
-              </span>
+              <span>01</span>
 
               <div>
-                <h2>
-                  Basic Information
-                </h2>
+                <h2>Basic Information</h2>
 
-                <p>
-                  Tell us about your recipe.
-                </p>
+                <p>Tell us about your recipe.</p>
               </div>
-
             </div>
 
             <div className="form-group">
-
-              <label htmlFor="title">
-                Recipe Title *
-              </label>
+              <label htmlFor="title">Recipe Title *</label>
 
               <input
                 id="title"
@@ -371,14 +248,10 @@ const CreateRecipe = () => {
                 placeholder="e.g. Creamy Butter Chicken"
                 required
               />
-
             </div>
 
             <div className="form-group">
-
-              <label htmlFor="description">
-                Description *
-              </label>
+              <label htmlFor="description">Description *</label>
 
               <textarea
                 id="description"
@@ -389,42 +262,25 @@ const CreateRecipe = () => {
                 rows="5"
                 required
               />
-
             </div>
-
           </section>
 
-          {/* ================================= */}
           {/* Recipe Details */}
-          {/* ================================= */}
 
           <section className="create-form-section">
-
             <div className="create-section-title">
-
-              <span>
-                02
-              </span>
+              <span>02</span>
 
               <div>
-                <h2>
-                  Recipe Details
-                </h2>
+                <h2>Recipe Details</h2>
 
-                <p>
-                  Add cooking information and category.
-                </p>
+                <p>Add cooking information and category.</p>
               </div>
-
             </div>
 
             <div className="recipe-details-grid">
-
               <div className="form-group">
-
-                <label htmlFor="prepTime">
-                  Prep Time
-                </label>
+                <label htmlFor="prepTime">Prep Time</label>
 
                 <input
                   id="prepTime"
@@ -436,17 +292,11 @@ const CreateRecipe = () => {
                   placeholder="15"
                 />
 
-                <small>
-                  Minutes
-                </small>
-
+                <small>Minutes</small>
               </div>
 
               <div className="form-group">
-
-                <label htmlFor="cookingTime">
-                  Cooking Time
-                </label>
+                <label htmlFor="cookingTime">Cooking Time</label>
 
                 <input
                   id="cookingTime"
@@ -458,17 +308,11 @@ const CreateRecipe = () => {
                   placeholder="30"
                 />
 
-                <small>
-                  Minutes
-                </small>
-
+                <small>Minutes</small>
               </div>
 
               <div className="form-group">
-
-                <label htmlFor="servings">
-                  Servings
-                </label>
+                <label htmlFor="servings">Servings</label>
 
                 <input
                   id="servings"
@@ -480,17 +324,11 @@ const CreateRecipe = () => {
                   placeholder="4"
                 />
 
-                <small>
-                  People
-                </small>
-
+                <small>People</small>
               </div>
 
               <div className="form-group">
-
-                <label htmlFor="difficulty">
-                  Difficulty
-                </label>
+                <label htmlFor="difficulty">Difficulty</label>
 
                 <select
                   id="difficulty"
@@ -498,26 +336,16 @@ const CreateRecipe = () => {
                   value={formData.difficulty}
                   onChange={handleChange}
                 >
-                  <option value="Easy">
-                    Easy
-                  </option>
+                  <option value="Easy">Easy</option>
 
-                  <option value="Medium">
-                    Medium
-                  </option>
+                  <option value="Medium">Medium</option>
 
-                  <option value="Hard">
-                    Hard
-                  </option>
+                  <option value="Hard">Hard</option>
                 </select>
-
               </div>
 
               <div className="form-group">
-
-                <label htmlFor="category">
-                  Category
-                </label>
+                <label htmlFor="category">Category</label>
 
                 <input
                   id="category"
@@ -527,14 +355,10 @@ const CreateRecipe = () => {
                   onChange={handleChange}
                   placeholder="e.g. Indian"
                 />
-
               </div>
 
               <div className="form-group">
-
-                <label htmlFor="dietaryType">
-                  Dietary Type
-                </label>
+                <label htmlFor="dietaryType">Dietary Type</label>
 
                 <select
                   id="dietaryType"
@@ -542,80 +366,43 @@ const CreateRecipe = () => {
                   value={formData.dietaryType}
                   onChange={handleChange}
                 >
+                  <option value="">Select type</option>
 
-                  <option value="">
-                    Select type
-                  </option>
+                  <option value="VEGETARIAN">Vegetarian</option>
 
-                  <option value="VEGETARIAN">
-                    Vegetarian
-                  </option>
+                  <option value="VEGAN">Vegan</option>
 
-                  <option value="VEGAN">
-                    Vegan
-                  </option>
+                  <option value="GLUTEN_FREE">Gluten-Free</option>
 
-                  <option value="GLUTEN_FREE">
-                    Gluten-Free
-                  </option>
-
-                  <option value="NON_VEGETARIAN">
-                    Non-Vegetarian
-                  </option>
-
+                  <option value="NON_VEGETARIAN">Non-Vegetarian</option>
                 </select>
-
               </div>
-
             </div>
-
           </section>
 
-          {/* ================================= */}
           {/* Ingredients */}
-          {/* ================================= */}
 
           <section className="create-form-section">
-
             <div className="create-section-title">
-
-              <span>
-                03
-              </span>
+              <span>03</span>
 
               <div>
-                <h2>
-                  Ingredients
-                </h2>
+                <h2>Ingredients</h2>
 
-                <p>
-                  List all ingredients required.
-                </p>
+                <p>List all ingredients required.</p>
               </div>
-
             </div>
 
             <div className="dynamic-list">
-
               {ingredients.map((ingredient, index) => (
-
-                <div
-                  className="dynamic-input-row"
-                  key={index}
-                >
-
-                  <div className="dynamic-number">
-                    {index + 1}
-                  </div>
+                <div className="dynamic-input-row" key={index}>
+                  <div className="dynamic-number">{index + 1}</div>
 
                   <input
                     type="text"
                     value={ingredient}
                     onChange={(event) =>
-                      handleIngredientChange(
-                        index,
-                        event.target.value
-                      )
+                      handleIngredientChange(index, event.target.value)
                     }
                     placeholder={`Ingredient ${index + 1}`}
                   />
@@ -623,19 +410,14 @@ const CreateRecipe = () => {
                   <button
                     type="button"
                     className="remove-item-btn"
-                    onClick={() =>
-                      removeIngredient(index)
-                    }
+                    onClick={() => removeIngredient(index)}
                     disabled={ingredients.length === 1}
                     title="Remove ingredient"
                   >
                     ×
                   </button>
-
                 </div>
-
               ))}
-
             </div>
 
             <button
@@ -645,53 +427,30 @@ const CreateRecipe = () => {
             >
               + Add Ingredient
             </button>
-
           </section>
 
-          {/* ================================= */}
           {/* Instructions */}
-          {/* ================================= */}
 
           <section className="create-form-section">
-
             <div className="create-section-title">
-
-              <span>
-                04
-              </span>
+              <span>04</span>
 
               <div>
-                <h2>
-                  Instructions
-                </h2>
+                <h2>Instructions</h2>
 
-                <p>
-                  Explain how to prepare the recipe step by step.
-                </p>
+                <p>Explain how to prepare the recipe step by step.</p>
               </div>
-
             </div>
 
             <div className="dynamic-list">
-
               {instructions.map((instruction, index) => (
-
-                <div
-                  className="instruction-input-row"
-                  key={index}
-                >
-
-                  <div className="instruction-number">
-                    {index + 1}
-                  </div>
+                <div className="instruction-input-row" key={index}>
+                  <div className="instruction-number">{index + 1}</div>
 
                   <textarea
                     value={instruction}
                     onChange={(event) =>
-                      handleInstructionChange(
-                        index,
-                        event.target.value
-                      )
+                      handleInstructionChange(index, event.target.value)
                     }
                     placeholder={`Step ${index + 1}`}
                     rows="3"
@@ -700,19 +459,14 @@ const CreateRecipe = () => {
                   <button
                     type="button"
                     className="remove-item-btn instruction-remove"
-                    onClick={() =>
-                      removeInstruction(index)
-                    }
+                    onClick={() => removeInstruction(index)}
                     disabled={instructions.length === 1}
                     title="Remove step"
                   >
                     ×
                   </button>
-
                 </div>
-
               ))}
-
             </div>
 
             <button
@@ -722,54 +476,28 @@ const CreateRecipe = () => {
             >
               + Add Step
             </button>
-
           </section>
 
-          {/* ================================= */}
           {/* Image */}
-          {/* ================================= */}
 
           <section className="create-form-section">
-
             <div className="create-section-title">
-
-              <span>
-                05
-              </span>
+              <span>05</span>
 
               <div>
-                <h2>
-                  Recipe Image
-                </h2>
+                <h2>Recipe Image</h2>
 
-                <p>
-                  Add an attractive image of your dish.
-                </p>
+                <p>Add an attractive image of your dish.</p>
               </div>
-
             </div>
 
             <div className="image-upload-area">
+              <label htmlFor="recipeImage" className="image-upload-box">
+                <div className="upload-icon">📷</div>
 
-              <label
-                htmlFor="recipeImage"
-                className="image-upload-box"
-              >
+                <strong>{image ? image.name : "Choose Recipe Image"}</strong>
 
-                <div className="upload-icon">
-                  📷
-                </div>
-
-                <strong>
-                  {image
-                    ? image.name
-                    : "Choose Recipe Image"}
-                </strong>
-
-                <span>
-                  JPG, JPEG, PNG or WEBP
-                </span>
-
+                <span>JPG, JPEG, PNG or WEBP</span>
               </label>
 
               <input
@@ -779,45 +507,28 @@ const CreateRecipe = () => {
                 onChange={handleImageChange}
                 hidden
               />
-
             </div>
 
             {image && (
               <div className="selected-image">
-
-                <img
-                  src={URL.createObjectURL(image)}
-                  alt="Recipe preview"
-                />
+                <img src={URL.createObjectURL(image)} alt="Recipe preview" />
 
                 <div>
-                  <strong>
-                    Image selected
-                  </strong>
+                  <strong>Image selected</strong>
 
-                  <p>
-                    {image.name}
-                  </p>
+                  <p>{image.name}</p>
 
-                  <button
-                    type="button"
-                    onClick={() => setImage(null)}
-                  >
+                  <button type="button" onClick={() => setImage(null)}>
                     Remove Image
                   </button>
                 </div>
-
               </div>
             )}
-
           </section>
 
-          {/* ================================= */}
           {/* Submit */}
-          {/* ================================= */}
 
           <div className="create-form-actions">
-
             <button
               type="button"
               className="cancel-create-btn"
@@ -832,20 +543,13 @@ const CreateRecipe = () => {
               className="publish-recipe-btn"
               disabled={loading}
             >
-              {loading
-                ? "Publishing..."
-                : "Publish Recipe"}
+              {loading ? "Publishing..." : "Publish Recipe"}
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 };
 
 export default CreateRecipe;
-

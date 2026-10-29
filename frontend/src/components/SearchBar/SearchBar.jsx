@@ -1,48 +1,31 @@
 import { useState } from "react";
-import "./SearchBar.css";
+import "./Searchbar.css";
 
-const SearchBar = ({
-    onSearch,
-    placeholder = "Search recipes..."
-}) => {
+const SearchBar = ({ onSearch, placeholder = "Search recipes..." }) => {
+  const [searchValue, setSearchValue] = useState("");
 
-    const [searchValue, setSearchValue] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const handleSubmit = (e) => {
+    onSearch(searchValue.trim());
+  };
 
-        e.preventDefault();
+  return (
+    <form className="search-form" onSubmit={handleSubmit}>
+      <div className="search-wrapper">
+        <span className="search-icon">🔍</span>
 
-        onSearch(searchValue.trim());
+        <input
+          type="text"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          placeholder={placeholder}
+        />
 
-    };
-
-    return (
-        <form
-            className="search-form"
-            onSubmit={handleSubmit}
-        >
-
-            <div className="search-wrapper">
-
-                <span className="search-icon">
-                    🔍
-                </span>
-
-                <input
-                    type="text"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    placeholder={placeholder}
-                />
-
-                <button type="submit">
-                    Search
-                </button>
-
-            </div>
-
-        </form>
-    );
+        <button type="submit">Search</button>
+      </div>
+    </form>
+  );
 };
 
 export default SearchBar;

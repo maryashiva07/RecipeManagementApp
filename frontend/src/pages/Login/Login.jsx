@@ -10,7 +10,7 @@ const Login = () => {
 
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -52,7 +52,7 @@ const Login = () => {
     } catch (error) {
       setError(
         error.response?.data?.message ||
-          "Login failed. Please check your credentials."
+          "Login failed. Please check your credentials.",
       );
     } finally {
       setLoading(false);
@@ -102,8 +102,7 @@ const Login = () => {
 
         <div className="auth-footer">
           <p>
-            Don't have an account?{" "}
-            <Link to="/register">Create account</Link>
+            Don't have an account? <Link to="/register">Create account</Link>
           </p>
         </div>
       </div>

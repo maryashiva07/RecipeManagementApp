@@ -1,101 +1,156 @@
+// import { Link } from "react-router-dom";
+// import "./RecipeCard.css";
+
+// const RecipeCard = ({ recipe, onFavorite, isFavorite = false }) => {
+//   if (!recipe) {
+//     return null;
+//   }
+
+//   const imageUrl = recipe.image
+//     ? `http://localhost:5000/${recipe.image.replace(/^\/+/, "")}`
+//     : null;
+
+//   return (
+//     <article className="recipe-card">
+//       <div className="recipe-image-wrapper">
+//         {imageUrl ? (
+//           <img src={imageUrl} alt={recipe.title} className="recipe-image" />
+//         ) : (
+//           <div className="recipe-placeholder">🍲</div>
+//         )}
+
+//         {onFavorite && (
+//           <button
+//             className={`favorite-btn ${isFavorite ? "active" : ""}`}
+//             onClick={() => onFavorite(recipe.id)}
+//             aria-label="Favorite recipe"
+//           >
+//             {isFavorite ? "❤️" : "♡"}
+//           </button>
+//         )}
+//       </div>
+
+//       <div className="recipe-content">
+//         <div className="recipe-category">{recipe.category || "Recipe"}</div>
+
+//         <Link to={`/recipes/${recipe.id}`} className="recipe-title">
+//           {recipe.title}
+//         </Link>
+
+//         <p className="recipe-description">
+//           {recipe.description
+//             ? recipe.description.length > 100
+//               ? `${recipe.description.substring(0, 100)}...`
+//               : recipe.description
+//             : "A delicious recipe waiting to be discovered."}
+//         </p>
+
+//         <div className="recipe-meta">
+//           <span>⏱️ {recipe.cookingTime || 0} min</span>
+
+//           <span>👥 {recipe.servings || 0}</span>
+
+//           {recipe.difficulty && <span>{recipe.difficulty}</span>}
+//         </div>
+//       </div>
+//     </article>
+//   );
+// };
+
+// export default RecipeCard;
+
+
+
+
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./RecipeCard.css";
 
-const RecipeCard = ({
-    recipe,
-    onFavorite,
-    isFavorite = false
-}) => {
+// Backend URL from .env
+const BACKEND_URL = (
+  import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"
+).replace(/\/+$/, "");
 
-    if (!recipe) {
-        return null;
-    }
+// Convert relative image paths into full URLs
+const getImageUrl = (image) => {
+  if (!image || typeof image !== "string") return null;
 
-    // const imageUrl = recipe.image
-    //     ? `http://localhost:5000/${recipe.image}`
-    //     : null;
+  const imagePath = image.trim();
 
-    const imageUrl = recipe.image
-         ? `http://localhost:5000/${recipe.image.replace(/^\/+/, "")}`
-         : null;
+  if (!imagePath) return null;
 
-    return (
-        <article className="recipe-card">
+  // Already a complete URL
+  if (/^https?:\/\//i.test(imagePath)) {
+    return imagePath;
+  }
 
-            <div className="recipe-image-wrapper">
+  return `${BACKEND_URL}/${imagePath.replace(/^\/+/, "")}`;
+};
 
-                {imageUrl ? (
-                    <img
-                        src={imageUrl}
-                        alt={recipe.title}
-                        className="recipe-image"
-                    />
-                ) : (
-                    <div className="recipe-placeholder">
-                        🍲
-                    </div>
-                )}
+const RecipeCard = ({ recipe, onFavorite, isFavorite = false }) => {
+  const [imageError, setImageError] = useState(false);
 
-                {onFavorite && (
-                    <button
-                        className={`favorite-btn ${
-                            isFavorite ? "active" : ""
-                        }`}
-                        onClick={() => onFavorite(recipe.id)}
-                        aria-label="Favorite recipe"
-                    >
-                        {isFavorite ? "❤️" : "♡"}
-                    </button>
-                )}
+  if (!recipe) {
+    return null;
+  }
 
-            </div>
+  const imageUrl = getImageUrl(recipe.image);
 
+  return (
+    <article className="recipe-card">
+      <div className="recipe-image-wrapper">
+        {imageUrl && !imageError ? (
+          <img
+            src={imageUrl}
+            alt={recipe.title || "Recipe"}
+            className="recipe-image"
+            loading="lazy"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="recipe-placeholder">🍲</div>
+        )}
 
-            <div className="recipe-content">
+        {onFavorite && (
+          <button
+            type="button"
+            className={`favorite-btn ${isFavorite ? "active" : ""}`}
+            onClick={() => onFavorite(recipe.id)}
+            aria-label={
+              isFavorite ? "Remove from favorites" : "Add to favorites"
+            }
+            aria-pressed={isFavorite}
+          >
+            {isFavorite ? "❤️" : "♡"}
+          </button>
+        )}
+      </div>
 
-                <div className="recipe-category">
-                    {recipe.category || "Recipe"}
-                </div>
+      <div className="recipe-content">
+        <div className="recipe-category">{recipe.category || "Recipe"}</div>
 
-                <Link
-                    to={`/recipes/${recipe.id}`}
-                    className="recipe-title"
-                >
-                    {recipe.title}
-                </Link>
+        <Link to={`/recipes/${recipe.id}`} className="recipe-title">
+          {recipe.title || "Untitled Recipe"}
+        </Link>
 
-                <p className="recipe-description">
-                    {recipe.description
-                        ? recipe.description.length > 100
-                            ? `${recipe.description.substring(0, 100)}...`
-                            : recipe.description
-                        : "A delicious recipe waiting to be discovered."
-                    }
-                </p>
+        <p className="recipe-description">
+          {recipe.description
+            ? recipe.description.length > 100
+              ? `${recipe.description.substring(0, 100)}...`
+              : recipe.description
+            : "A delicious recipe waiting to be discovered."}
+        </p>
 
+        <div className="recipe-meta">
+          <span>⏱️ {recipe.cookingTime || 0} min</span>
 
-                <div className="recipe-meta">
+          <span>👥 {recipe.servings || 0}</span>
 
-                    <span>
-                        ⏱️ {recipe.cookingTime || 0} min
-                    </span>
-
-                    <span>
-                        👥 {recipe.servings || 0}
-                    </span>
-
-                    {recipe.difficulty && (
-                        <span>
-                            {recipe.difficulty}
-                        </span>
-                    )}
-
-                </div>
-
-            </div>
-
-        </article>
-    );
+          {recipe.difficulty && <span>{recipe.difficulty}</span>}
+        </div>
+      </div>
+    </article>
+  );
 };
 
 export default RecipeCard;

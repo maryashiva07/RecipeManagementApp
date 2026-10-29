@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
 import Loader from "../../components/Loader/Loader";
 
-import {
-  getFavorites,
-  removeFavorite
-} from "../../services/socialService";
+import { getFavorites, removeFavorite } from "../../services/socialService";
 
 import "./Favorites.css";
 
@@ -23,17 +20,13 @@ const Favorites = () => {
 
       const response = await getFavorites();
 
-      setFavorites(
-        response.favorites ||
-          response.data ||
-          []
-      );
+      setFavorites(response.favorites || response.data || []);
     } catch (error) {
       console.error("Favorites fetch error:", error);
 
       setError(
         error.response?.data?.message ||
-          "Unable to load your favorite recipes."
+          "Unable to load your favorite recipes.",
       );
     } finally {
       setLoading(false);
@@ -44,31 +37,27 @@ const Favorites = () => {
     fetchFavorites();
   }, []);
 
-  const getFavoriteRecipe = favorite => {
-    return (
-      favorite.recipe ||
-      favorite.Recipe ||
-      favorite
-    );
+  const getFavoriteRecipe = (favorite) => {
+    return favorite.recipe || favorite.Recipe || favorite;
   };
 
-  const handleRemoveFavorite = async recipeId => {
+  const handleRemoveFavorite = async (recipeId) => {
     try {
       await removeFavorite(recipeId);
 
-      setFavorites(previous =>
-        previous.filter(favorite => {
+      setFavorites((previous) =>
+        previous.filter((favorite) => {
           const recipe = getFavoriteRecipe(favorite);
 
           return Number(recipe.id) !== Number(recipeId);
-        })
+        }),
       );
     } catch (error) {
       console.error("Remove favorite error:", error);
 
       setError(
         error.response?.data?.message ||
-          "Unable to remove recipe from favorites."
+          "Unable to remove recipe from favorites.",
       );
     }
   };
@@ -84,18 +73,15 @@ const Favorites = () => {
   return (
     <div className="favorites-page">
       <div className="favorites-container">
-
         <div className="favorites-header">
           <div>
-            <span className="favorites-badge">
-              Your Saved Recipes
-            </span>
+            <span className="favorites-badge">Your Saved Recipes</span>
 
             <h1>Favorite Recipes</h1>
 
             <p>
-              Keep your favorite recipes in one place
-              and access them whenever you want.
+              Keep your favorite recipes in one place and access them whenever
+              you want.
             </p>
           </div>
 
@@ -105,35 +91,25 @@ const Favorites = () => {
           </div>
         </div>
 
-        {error && (
-          <div className="favorites-error">
-            {error}
-          </div>
-        )}
+        {error && <div className="favorites-error">{error}</div>}
 
         {favorites.length === 0 ? (
           <div className="favorites-empty">
-
             <div className="empty-icon">♡</div>
 
             <h2>No Favorite Recipes</h2>
 
             <p>
-              You haven't saved any recipes yet.
-              Explore recipes and add your favorites here.
+              You haven't saved any recipes yet. Explore recipes and add your
+              favorites here.
             </p>
 
-            <Link
-              to="/"
-              className="browse-recipes-btn"
-            >
+            <Link to="/" className="browse-recipes-btn">
               Browse Recipes
             </Link>
-
           </div>
         ) : (
           <div className="favorites-grid">
-
             {favorites.map((favorite, index) => {
               const recipe = getFavoriteRecipe(favorite);
 
@@ -148,10 +124,8 @@ const Favorites = () => {
                 />
               );
             })}
-
           </div>
         )}
-
       </div>
     </div>
   );

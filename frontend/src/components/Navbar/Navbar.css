@@ -22,7 +22,7 @@
 }
 
 
-/* ================= LOGO ================= */
+/*  LOGO  */
 
 .navbar-logo {
     text-decoration: none;
@@ -40,7 +40,7 @@
 }
 
 
-/* ================= NAV MENU ================= */
+/*  NAV MENU  */
 
 .nav-menu {
     display: flex;
@@ -69,7 +69,7 @@
 }
 
 
-/* ================= RIGHT ACTIONS ================= */
+/*  RIGHT ACTIONS  */
 
 .navbar-actions {
     display: flex;
@@ -78,7 +78,7 @@
 }
 
 
-/* ================= THEME ================= */
+/*  THEME  */
 
 .theme-toggle {
     width: 40px;
@@ -105,7 +105,7 @@
 }
 
 
-/* ================= AUTH ================= */
+/*  AUTH  */
 
 .desktop-auth {
     display: flex;
@@ -184,7 +184,7 @@
 }
 
 
-/* ================= MOBILE ================= */
+/* MOBILE  */
 
 .mobile-auth {
     display: none;
@@ -218,7 +218,7 @@
 }
 
 
-/* ================= TABLET ================= */
+/* TABLET  */
 
 @media (max-width: 1000px) {
 
@@ -237,7 +237,7 @@
 }
 
 
-/* ================= MOBILE ================= */
+/*  MOBILE  */
 
 @media (max-width: 768px) {
 
@@ -313,4 +313,27 @@
         text-align: center;
     }
 
+}
+
+
+.nav-link {
+  position: relative;
+  text-decoration: none;
+}
+
+/* Active navigation link */
+.nav-link.active {
+  color: #00e5ff;
+}
+
+/* Active underline */
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: #00e5ff;
+  border-radius: 10px;
 }

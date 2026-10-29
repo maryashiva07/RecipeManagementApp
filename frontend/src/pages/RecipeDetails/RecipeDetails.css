@@ -4,10 +4,6 @@
   background: var(--bg-secondary);
 }
 
-/* =========================================
-   ALERTS
-========================================= */
-
 .recipe-alert {
   padding: 14px 18px;
   border-radius: 10px;
@@ -27,10 +23,6 @@
   color: var(--success-color);
   border: 1px solid rgba(25, 135, 84, 0.2);
 }
-
-/* =========================================
-   MAIN RECIPE CARD
-========================================= */
 
 .recipe-detail-card {
   display: grid;
@@ -71,10 +63,6 @@
 
   font-size: 90px;
 }
-
-/* =========================================
-   CONTENT
-========================================= */
 
 .recipe-detail-content {
   padding: 38px;
@@ -126,10 +114,6 @@
   color: var(--success-color);
 }
 
-/* =========================================
-   FAVORITE
-========================================= */
-
 .favorite-detail-btn {
   flex-shrink: 0;
 
@@ -156,10 +140,6 @@
   color: var(--accent-color);
 }
 
-/* =========================================
-   TITLE
-========================================= */
-
 .recipe-detail-content h1 {
   margin: 0 0 15px;
 
@@ -177,10 +157,6 @@
   line-height: 1.7;
   font-size: 15px;
 }
-
-/* =========================================
-   STATS
-========================================= */
 
 .recipe-stats {
   display: grid;
@@ -228,10 +204,6 @@
   color: var(--text-secondary);
   font-size: 10px;
 }
-
-/* =========================================
-   AUTHOR
-========================================= */
 
 .recipe-author {
   display: flex;
@@ -291,10 +263,6 @@
   font-size: 14px;
 }
 
-/* =========================================
-   FOLLOW
-========================================= */
-
 .follow-btn {
   padding: 8px 15px;
 
@@ -314,10 +282,6 @@
   background: transparent;
   color: var(--accent-color);
 }
-
-/* =========================================
-   OWNER ACTIONS
-========================================= */
 
 .owner-actions {
   display: flex;
@@ -349,10 +313,6 @@
   background: transparent;
   color: var(--danger-color);
 }
-
-/* =========================================
-   RECIPE BODY
-========================================= */
 
 .recipe-body {
   margin-top: 30px;
@@ -414,10 +374,6 @@
   font-size: 12px;
 }
 
-/* =========================================
-   INGREDIENTS
-========================================= */
-
 .ingredients-list {
   list-style: none;
 
@@ -466,10 +422,6 @@
   font-weight: 700;
 }
 
-/* =========================================
-   INSTRUCTIONS
-========================================= */
-
 .instructions-list {
   display: flex;
   flex-direction: column;
@@ -515,10 +467,6 @@
   color: var(--text-secondary);
   font-size: 14px;
 }
-
-/* =========================================
-   REVIEWS
-========================================= */
 
 .reviews-section {
   margin-top: 30px;
@@ -572,10 +520,6 @@
   padding-left: 30px;
   border-left: 1px solid var(--border-color);
 }
-
-/* =========================================
-   REVIEW FORM
-========================================= */
 
 .review-form {
   padding: 22px;
@@ -678,10 +622,6 @@
   cursor: not-allowed;
 }
 
-/* =========================================
-   LOGIN MESSAGE
-========================================= */
-
 .login-review-message {
   display: flex;
   align-items: center;
@@ -714,10 +654,6 @@
 
   text-decoration: none;
 }
-
-/* =========================================
-   REVIEWS LIST
-========================================= */
 
 .reviews-list {
   display: flex;
@@ -808,10 +744,6 @@
   line-height: 1.6;
 }
 
-/* =========================================
-   NO REVIEWS
-========================================= */
-
 .no-reviews {
   text-align: center;
 
@@ -839,10 +771,6 @@
 
   font-size: 13px;
 }
-
-/* =========================================
-   ERROR
-========================================= */
 
 .recipe-details-error {
   padding: 70px 20px;
@@ -884,12 +812,7 @@
   font-weight: 600;
 }
 
-/* =========================================
-   TABLET
-========================================= */
-
 @media (max-width: 1000px) {
-
   .recipe-detail-card {
     grid-template-columns: 1fr;
   }
@@ -903,15 +826,9 @@
   .recipe-body {
     grid-template-columns: 1fr;
   }
-
 }
 
-/* =========================================
-   MOBILE
-========================================= */
-
 @media (max-width: 768px) {
-
   .recipe-details-page {
     padding: 25px 0 60px;
   }
@@ -962,15 +879,9 @@
     flex-direction: column;
     gap: 8px;
   }
-
 }
 
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
 @media (max-width: 500px) {
-
   .recipe-detail-top {
     flex-direction: column;
   }
@@ -1015,6 +926,4 @@
     align-items: flex-start;
     flex-direction: column;
   }
-
 }
-

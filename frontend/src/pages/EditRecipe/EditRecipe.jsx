@@ -7,12 +7,32 @@ import Loader from "../../components/Loader/Loader";
 import {
   getRecipeById,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
 } from "../../services/recipeService";
 
 import "./EditRecipe.css";
 
-const parseData = value => {
+// Use backend URL from .env
+const BACKEND_URL = (
+  import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"
+).replace(/\/+$/, "");
+
+// Convert relative image paths into full URLs
+const getImageUrl = (image) => {
+  if (!image || typeof image !== "string") return "";
+
+  const imagePath = image.trim();
+
+  if (!imagePath) return "";
+
+  if (/^https?:\/\//i.test(imagePath)) {
+    return imagePath;
+  }
+
+  return `${BACKEND_URL}/${imagePath.replace(/^\/+/, "")}`;
+};
+
+const parseData = (value) => {
   if (!value) return [""];
 
   if (Array.isArray(value)) {
@@ -30,7 +50,7 @@ const parseData = value => {
   } catch {
     const result = String(value)
       .split("\n")
-      .map(item => item.trim())
+      .map((item) => item.trim())
       .filter(Boolean);
 
     return result.length ? result : [""];
@@ -51,7 +71,7 @@ const EditRecipe = () => {
     servings: "",
     difficulty: "Easy",
     category: "",
-    dietaryType: ""
+    dietaryType: "",
   });
 
   const [ingredients, setIngredients] = useState([""]);
@@ -59,6 +79,7 @@ const EditRecipe = () => {
 
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [imagePreviewError, setImagePreviewError] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -67,22 +88,31 @@ const EditRecipe = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // Release locally generated preview URLs when replaced or unmounted.
   useEffect(() => {
+    return () => {
+      if (imagePreview.startsWith("blob:")) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+
+  useEffect(() => {
+    let isMounted = true;
+
     const fetchRecipe = async () => {
       try {
         setLoading(true);
         setError("");
 
         const response = await getRecipeById(id);
-
-        const recipeData =
-          response.recipe ||
-          response.data ||
-          response;
+        const recipeData = response?.recipe || response?.data || response;
 
         if (!recipeData) {
           throw new Error("Recipe not found.");
         }
+
+        if (!isMounted) return;
 
         setRecipe(recipeData);
 
@@ -94,46 +124,55 @@ const EditRecipe = () => {
           servings: recipeData.servings ?? "",
           difficulty: recipeData.difficulty || "Easy",
           category: recipeData.category || "",
-          dietaryType: recipeData.dietaryType || ""
+          dietaryType: recipeData.dietaryType || "",
         });
 
         setIngredients(parseData(recipeData.ingredients));
         setInstructions(parseData(recipeData.instructions));
 
         if (recipeData.image) {
-          setImagePreview(
-            recipeData.image.startsWith("http")
-              ? recipeData.image
-              : `http://localhost:5000/${recipeData.image}`
-          );
+          setImagePreview(getImageUrl(recipeData.image));
+        } else {
+          setImagePreview("");
         }
+
+        setImagePreviewError(false);
       } catch (error) {
         console.error("Fetch recipe error:", error);
 
-        setError(
-          error.response?.data?.message ||
-            error.message ||
-            "Unable to load recipe."
-        );
+        if (isMounted) {
+          setError(
+            error.response?.data?.message ||
+              error.message ||
+              "Unable to load recipe.",
+          );
+          setRecipe(null);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchRecipe();
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setFormData(previous => ({
+    setFormData((previous) => ({
       ...previous,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleIngredientChange = (index, value) => {
-    setIngredients(previous => {
+    setIngredients((previous) => {
       const updated = [...previous];
       updated[index] = value;
       return updated;
@@ -141,22 +180,22 @@ const EditRecipe = () => {
   };
 
   const addIngredient = () => {
-    setIngredients(previous => [...previous, ""]);
+    setIngredients((previous) => [...previous, ""]);
   };
 
-  const removeIngredient = index => {
+  const removeIngredient = (index) => {
     if (ingredients.length === 1) {
       setIngredients([""]);
       return;
     }
 
-    setIngredients(previous =>
-      previous.filter((_, itemIndex) => itemIndex !== index)
+    setIngredients((previous) =>
+      previous.filter((_, itemIndex) => itemIndex !== index),
     );
   };
 
   const handleInstructionChange = (index, value) => {
-    setInstructions(previous => {
+    setInstructions((previous) => {
       const updated = [...previous];
       updated[index] = value;
       return updated;
@@ -164,43 +203,52 @@ const EditRecipe = () => {
   };
 
   const addInstruction = () => {
-    setInstructions(previous => [...previous, ""]);
+    setInstructions((previous) => [...previous, ""]);
   };
 
-  const removeInstruction = index => {
+  const removeInstruction = (index) => {
     if (instructions.length === 1) {
       setInstructions([""]);
       return;
     }
 
-    setInstructions(previous =>
-      previous.filter((_, itemIndex) => itemIndex !== index)
+    setInstructions((previous) =>
+      previous.filter((_, itemIndex) => itemIndex !== index),
     );
   };
 
-  const handleImageChange = event => {
-    const selectedFile = event.target.files[0];
+  const handleImageChange = (event) => {
+    const selectedFile = event.target.files?.[0];
 
     if (!selectedFile) return;
 
+    if (!selectedFile.type.startsWith("image/")) {
+      setError("Please select a valid image file.");
+      event.target.value = "";
+      return;
+    }
+
+    setError("");
+    setSuccess("");
     setImage(selectedFile);
+    setImagePreviewError(false);
 
     const previewUrl = URL.createObjectURL(selectedFile);
     setImagePreview(previewUrl);
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     setError("");
     setSuccess("");
 
     const cleanIngredients = ingredients
-      .map(item => item.trim())
+      .map((item) => item.trim())
       .filter(Boolean);
 
     const cleanInstructions = instructions
-      .map(item => item.trim())
+      .map((item) => item.trim())
       .filter(Boolean);
 
     if (!formData.title.trim()) {
@@ -237,26 +285,15 @@ const EditRecipe = () => {
       data.append("category", formData.category.trim());
       data.append("dietaryType", formData.dietaryType);
 
-      data.append(
-        "ingredients",
-        JSON.stringify(cleanIngredients)
-      );
-
-      data.append(
-        "instructions",
-        JSON.stringify(cleanInstructions)
-      );
+      data.append("ingredients", JSON.stringify(cleanIngredients));
+      data.append("instructions", JSON.stringify(cleanInstructions));
 
       if (image) {
         data.append("image", image);
       }
 
       const response = await updateRecipe(id, data);
-
-      const updatedRecipe =
-        response.recipe ||
-        response.data ||
-        response;
+      const updatedRecipe = response?.recipe || response?.data || response;
 
       setSuccess("Recipe updated successfully.");
 
@@ -268,10 +305,7 @@ const EditRecipe = () => {
     } catch (error) {
       console.error("Update recipe error:", error);
 
-      setError(
-        error.response?.data?.message ||
-          "Unable to update recipe."
-      );
+      setError(error.response?.data?.message || "Unable to update recipe.");
     } finally {
       setSaving(false);
     }
@@ -279,7 +313,7 @@ const EditRecipe = () => {
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this recipe?"
+      "Are you sure you want to delete this recipe?",
     );
 
     if (!confirmed) return;
@@ -287,6 +321,7 @@ const EditRecipe = () => {
     try {
       setDeleting(true);
       setError("");
+      setSuccess("");
 
       await deleteRecipe(id);
 
@@ -294,10 +329,7 @@ const EditRecipe = () => {
     } catch (error) {
       console.error("Delete recipe error:", error);
 
-      setError(
-        error.response?.data?.message ||
-          "Unable to delete recipe."
-      );
+      setError(error.response?.data?.message || "Unable to delete recipe.");
     } finally {
       setDeleting(false);
     }
@@ -315,13 +347,9 @@ const EditRecipe = () => {
     return (
       <div className="edit-recipe-page">
         <div className="edit-recipe-container">
-          <div className="edit-error-box">
-            {error || "Recipe not found."}
-          </div>
+          <div className="edit-error-box">{error || "Recipe not found."}</div>
 
-          <Button onClick={() => navigate(-1)}>
-            Go Back
-          </Button>
+          <Button onClick={() => navigate(-1)}>Go Back</Button>
         </div>
       </div>
     );
@@ -330,39 +358,23 @@ const EditRecipe = () => {
   return (
     <div className="edit-recipe-page">
       <div className="edit-recipe-container">
-
         <div className="edit-recipe-header">
           <div>
-            <span className="edit-recipe-badge">
-              Update Recipe
-            </span>
+            <span className="edit-recipe-badge">Update Recipe</span>
 
             <h1>Edit Recipe</h1>
 
             <p>
-              Update your recipe details, ingredients,
-              instructions or image.
+              Update your recipe details, ingredients, instructions or image.
             </p>
           </div>
         </div>
 
-        {error && (
-          <div className="edit-message edit-error">
-            {error}
-          </div>
-        )}
+        {error && <div className="edit-message edit-error">{error}</div>}
 
-        {success && (
-          <div className="edit-message edit-success">
-            {success}
-          </div>
-        )}
+        {success && <div className="edit-message edit-success">{success}</div>}
 
-        <form
-          className="edit-recipe-form"
-          onSubmit={handleSubmit}
-        >
-
+        <form className="edit-recipe-form" onSubmit={handleSubmit}>
           {/* BASIC INFORMATION */}
 
           <section className="edit-form-section">
@@ -372,9 +384,7 @@ const EditRecipe = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">
-                Recipe Title
-              </label>
+              <label htmlFor="title">Recipe Title</label>
 
               <input
                 id="title"
@@ -383,13 +393,12 @@ const EditRecipe = () => {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Enter recipe title"
+                required
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">
-                Description
-              </label>
+              <label htmlFor="description">Description</label>
 
               <textarea
                 id="description"
@@ -398,6 +407,7 @@ const EditRecipe = () => {
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Describe your recipe..."
+                required
               />
             </div>
           </section>
@@ -407,17 +417,12 @@ const EditRecipe = () => {
           <section className="edit-form-section">
             <div className="section-heading">
               <h2>Cooking Details</h2>
-              <p>
-                Update preparation and cooking information.
-              </p>
+              <p>Update preparation and cooking information.</p>
             </div>
 
             <div className="form-grid">
-
               <div className="form-group">
-                <label htmlFor="prepTime">
-                  Preparation Time (minutes)
-                </label>
+                <label htmlFor="prepTime">Preparation Time (minutes)</label>
 
                 <input
                   id="prepTime"
@@ -431,9 +436,7 @@ const EditRecipe = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="cookingTime">
-                  Cooking Time (minutes)
-                </label>
+                <label htmlFor="cookingTime">Cooking Time (minutes)</label>
 
                 <input
                   id="cookingTime"
@@ -447,9 +450,7 @@ const EditRecipe = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="servings">
-                  Servings
-                </label>
+                <label htmlFor="servings">Servings</label>
 
                 <input
                   id="servings"
@@ -463,9 +464,7 @@ const EditRecipe = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="difficulty">
-                  Difficulty
-                </label>
+                <label htmlFor="difficulty">Difficulty</label>
 
                 <select
                   id="difficulty"
@@ -480,9 +479,7 @@ const EditRecipe = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="category">
-                  Category
-                </label>
+                <label htmlFor="category">Category</label>
 
                 <input
                   id="category"
@@ -495,9 +492,7 @@ const EditRecipe = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="dietaryType">
-                  Dietary Type
-                </label>
+                <label htmlFor="dietaryType">Dietary Type</label>
 
                 <select
                   id="dietaryType"
@@ -505,24 +500,13 @@ const EditRecipe = () => {
                   value={formData.dietaryType}
                   onChange={handleChange}
                 >
-                  <option value="">
-                    Select dietary type
-                  </option>
-                  <option value="Vegetarian">
-                    Vegetarian
-                  </option>
-                  <option value="Vegan">
-                    Vegan
-                  </option>
-                  <option value="Gluten-Free">
-                    Gluten-Free
-                  </option>
-                  <option value="Non-Vegetarian">
-                    Non-Vegetarian
-                  </option>
+                  <option value="">Select dietary type</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="Gluten-Free">Gluten-Free</option>
+                  <option value="Non-Vegetarian">Non-Vegetarian</option>
                 </select>
               </div>
-
             </div>
           </section>
 
@@ -535,24 +519,15 @@ const EditRecipe = () => {
             </div>
 
             <div className="dynamic-list">
-
               {ingredients.map((ingredient, index) => (
-                <div
-                  className="dynamic-item"
-                  key={index}
-                >
-                  <span className="item-number">
-                    {index + 1}
-                  </span>
+                <div className="dynamic-item" key={index}>
+                  <span className="item-number">{index + 1}</span>
 
                   <input
                     type="text"
                     value={ingredient}
-                    onChange={event =>
-                      handleIngredientChange(
-                        index,
-                        event.target.value
-                      )
+                    onChange={(event) =>
+                      handleIngredientChange(index, event.target.value)
                     }
                     placeholder={`Ingredient ${index + 1}`}
                   />
@@ -560,16 +535,13 @@ const EditRecipe = () => {
                   <button
                     type="button"
                     className="remove-item-btn"
-                    onClick={() =>
-                      removeIngredient(index)
-                    }
-                    aria-label="Remove ingredient"
+                    onClick={() => removeIngredient(index)}
+                    aria-label={`Remove ingredient ${index + 1}`}
                   >
                     ×
                   </button>
                 </div>
               ))}
-
             </div>
 
             <button
@@ -586,30 +558,19 @@ const EditRecipe = () => {
           <section className="edit-form-section">
             <div className="section-heading">
               <h2>Instructions</h2>
-              <p>
-                Update the cooking steps in the correct order.
-              </p>
+              <p>Update the cooking steps in the correct order.</p>
             </div>
 
             <div className="dynamic-list">
-
               {instructions.map((instruction, index) => (
-                <div
-                  className="dynamic-item instruction-item"
-                  key={index}
-                >
-                  <span className="item-number">
-                    {index + 1}
-                  </span>
+                <div className="dynamic-item instruction-item" key={index}>
+                  <span className="item-number">{index + 1}</span>
 
                   <textarea
                     rows="3"
                     value={instruction}
-                    onChange={event =>
-                      handleInstructionChange(
-                        index,
-                        event.target.value
-                      )
+                    onChange={(event) =>
+                      handleInstructionChange(index, event.target.value)
                     }
                     placeholder={`Step ${index + 1}`}
                   />
@@ -617,16 +578,13 @@ const EditRecipe = () => {
                   <button
                     type="button"
                     className="remove-item-btn"
-                    onClick={() =>
-                      removeInstruction(index)
-                    }
-                    aria-label="Remove instruction"
+                    onClick={() => removeInstruction(index)}
+                    aria-label={`Remove instruction ${index + 1}`}
                   >
                     ×
                   </button>
                 </div>
               ))}
-
             </div>
 
             <button
@@ -638,30 +596,33 @@ const EditRecipe = () => {
             </button>
           </section>
 
-          {/* IMAGE */}
+          {/* RECIPE IMAGE */}
 
           <section className="edit-form-section">
             <div className="section-heading">
               <h2>Recipe Image</h2>
-              <p>
-                Keep the current image or upload a new one.
-              </p>
+              <p>Keep the current image or upload a new one.</p>
             </div>
 
-            {imagePreview && (
+            {imagePreview && !imagePreviewError && (
               <div className="image-preview-wrapper">
                 <img
                   src={imagePreview}
                   alt="Recipe preview"
                   className="recipe-image-preview"
+                  onError={() => setImagePreviewError(true)}
                 />
               </div>
             )}
 
+            {imagePreviewError && (
+              <p className="edit-message edit-error">
+                Unable to load the recipe image. You can choose a new image.
+              </p>
+            )}
+
             <div className="file-input-wrapper">
-              <label htmlFor="recipeImage">
-                Choose New Image
-              </label>
+              <label htmlFor="recipeImage">Choose New Image</label>
 
               <input
                 id="recipeImage"
@@ -670,24 +631,18 @@ const EditRecipe = () => {
                 onChange={handleImageChange}
               />
 
-              {image && (
-                <p className="selected-file">
-                  Selected: {image.name}
-                </p>
-              )}
+              {image && <p className="selected-file">Selected: {image.name}</p>}
             </div>
           </section>
 
           {/* ACTIONS */}
 
           <div className="edit-actions">
-
             <Button
               type="button"
               variant="outline"
-              onClick={() =>
-                navigate(`/recipes/${id}`)
-              }
+              onClick={() => navigate(`/recipes/${id}`)}
+              disabled={saving || deleting}
             >
               Cancel
             </Button>
@@ -709,9 +664,7 @@ const EditRecipe = () => {
             >
               Delete Recipe
             </Button>
-
           </div>
-
         </form>
       </div>
     </div>

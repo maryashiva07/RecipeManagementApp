@@ -5,28 +5,20 @@ import api from "./api";
   POST /api/auth/register
 */
 export const registerUser = async (userData) => {
-  const response = await api.post(
-    "/auth/register",
-    userData
-  );
+  const response = await api.post("/auth/register", userData);
 
   return response.data;
 };
-
 
 /*
   Login user
   POST /api/auth/login
 */
 export const loginUser = async (loginData) => {
-  const response = await api.post(
-    "/auth/login",
-    loginData
-  );
+  const response = await api.post("/auth/login", loginData);
 
   return response.data;
 };
-
 
 /*
   Logout user
@@ -38,7 +30,6 @@ export const logoutUser = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
 };
-
 
 /*
   Get logged-in user from localStorage
@@ -60,7 +51,6 @@ export const getStoredUser = () => {
     return null;
   }
 };
-
 
 /*
   Check whether user is logged in
