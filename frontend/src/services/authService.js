@@ -22,9 +22,6 @@ export const loginUser = async (loginData) => {
 
 /*
   Logout user
-
-  Logout ke liye backend API ki zarurat nahi hai.
-  JWT localStorage se remove karna enough hai.
 */
 export const logoutUser = () => {
   localStorage.removeItem("token");
