@@ -1,302 +1,7 @@
-// import api from "./api";
-
-// /*
-//   Add recipe to favorites
-
-//   POST /api/favorites/:recipeId
-// */
-// export const addFavorite = async (recipeId) => {
-//   const response = await api.post(`/favorites/${recipeId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Remove recipe from favorites
-
-//   DELETE /api/favorites/:recipeId
-// */
-// export const removeFavorite = async (recipeId) => {
-//   const response = await api.delete(`/favorites/${recipeId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Get all favorites
-
-//   GET /api/favorites
-// */
-// export const getFavorites = async () => {
-//   const response = await api.get("/favorites");
-
-//   return response.data;
-// };
-
-// /*
-//   Create collection
-
-//   POST /api/collections
-// */
-// export const createCollection = async (collectionData) => {
-//   const response = await api.post("/collections", collectionData);
-
-//   return response.data;
-// };
-
-// /*
-//   Get all collections
-
-//   GET /api/collections
-// */
-// export const getCollections = async () => {
-//   const response = await api.get("/collections");
-
-//   return response.data;
-// };
-
-// /*
-//   Get single collection
-
-//   GET /api/collections/:id
-// */
-// export const getCollectionById = async (collectionId) => {
-//   const response = await api.get(`/collections/${collectionId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Update collection
-
-//   PUT /api/collections/:id
-// */
-// export const updateCollection = async (collectionId, collectionData) => {
-//   const response = await api.put(
-//     `/collections/${collectionId}`,
-//     collectionData,
-//   );
-
-//   return response.data;
-// };
-
-// /*
-//   Delete collection
-
-//   DELETE /api/collections/:id
-// */
-// export const deleteCollection = async (collectionId) => {
-//   const response = await api.delete(`/collections/${collectionId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Add recipe to collection
-
-//   POST /api/collections/:collectionId/recipes/:recipeId
-// */
-// export const addRecipeToCollection = async (collectionId, recipeId) => {
-//   const response = await api.post(
-//     `/collections/${collectionId}/recipes/${recipeId}`,
-//   );
-
-//   return response.data;
-// };
-
-// /*
-//   Remove recipe from collection
-
-//   DELETE /api/collections/:collectionId/recipes/:recipeId
-// */
-// export const removeRecipeFromCollection = async (collectionId, recipeId) => {
-//   const response = await api.delete(
-//     `/collections/${collectionId}/recipes/${recipeId}`,
-//   );
-
-//   return response.data;
-// };
-
-// /*
-//   Create review
-
-//   POST /api/reviews/:recipeId
-// */
-// export const createReview = async (recipeId, reviewData) => {
-//   const response = await api.post(`/reviews/recipe/${recipeId}`, reviewData);
-
-//   return response.data;
-// };
-
-// /*
-//   Get reviews of a recipe
-
-//   GET /api/reviews/recipe/:recipeId
-// */
-// export const getRecipeReviews = async (recipeId) => {
-//   const response = await api.get(`/reviews/recipe/${recipeId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Update review
-
-//   PUT /api/reviews/:id
-// */
-// export const updateReview = async (reviewId, reviewData) => {
-//   const response = await api.put(`/reviews/${reviewId}`, reviewData);
-
-//   return response.data;
-// };
-
-// /*
-//   Delete review
-
-//   DELETE /api/reviews/:id
-// */
-// export const deleteReview = async (reviewId) => {
-//   const response = await api.delete(`/reviews/${reviewId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Follow user
-
-//   POST /api/follows/:userId
-// */
-// export const followUser = async (userId) => {
-//   const response = await api.post(`/follows/${userId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Unfollow user
-
-//   DELETE /api/follows/:userId
-// */
-// export const unfollowUser = async (userId) => {
-//   const response = await api.delete(`/follows/${userId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Get followers
-
-//   GET /api/follows/followers
-// */
-
-// export const getFollowers = async () => {
-//   const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-//   const response = await api.get(`/follows/${user.id}/followers`);
-
-//   return response.data;
-// };
-
-// /*
-//   Get following
-
-//   GET /api/follows/following
-// */
-
-// export const getFollowing = async () => {
-//   const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-//   const response = await api.get(`/follows/${user.id}/following`);
-
-//   return response.data;
-// };
-
-// /*
-//   Get activity feed
-
-//   GET /api/feed
-// */
-// export const getFeed = async () => {
-//   const response = await api.get("/feed");
-
-//   return response.data;
-// };
-
-// /*
-//   Get all users
-
-//   GET /api/admin/users
-// */
-// export const getAdminUsers = async () => {
-//   const response = await api.get("/admin/users");
-
-//   return response.data;
-// };
-
-// /*
-//   Ban user
-
-//   PUT /api/admin/users/:id/ban
-// */
-// export const banUser = async (userId) => {
-//   const response = await api.put(`/admin/users/${userId}/ban`);
-
-//   return response.data;
-// };
-
-// /*
-//   Approve user
-
-//   PUT /api/admin/users/:id/approve
-// */
-// export const approveUser = async (userId) => {
-//   const response = await api.put(`/admin/users/${userId}/approve`);
-
-//   return response.data;
-// };
-
-// /*
-//   Delete user
-
-//   DELETE /api/admin/users/:id
-// */
-// export const deleteUser = async (userId) => {
-//   const response = await api.delete(`/admin/users/${userId}`);
-
-//   return response.data;
-// };
-
-// /*
-//   Get all recipes for admin
-
-//   GET /api/admin/recipes
-// */
-// export const getAdminRecipes = async () => {
-//   const response = await api.get("/admin/recipes");
-
-//   return response.data;
-// };
-
-// /*
-//   Delete recipe by admin
-
-//   DELETE /api/admin/recipes/:id
-// */
-// export const adminDeleteRecipe = async (recipeId) => {
-//   const response = await api.delete(`/admin/recipes/${recipeId}`);
-
-//   return response.data;
-// };
-
-
-
-
-
 import api from "./api";
 
 /*
   Add recipe to favorites
-
   POST /api/favorites/:recipeId
 */
 export const addFavorite = async (recipeId) => {
@@ -310,7 +15,6 @@ export const addFavorite = async (recipeId) => {
 
 /*
   Remove recipe from favorites
-
   DELETE /api/favorites/:recipeId
 */
 export const removeFavorite = async (recipeId) => {
@@ -324,7 +28,6 @@ export const removeFavorite = async (recipeId) => {
 
 /*
   Get all favorites
-
   GET /api/favorites
 */
 export const getFavorites = async () => {
@@ -338,7 +41,6 @@ export const getFavorites = async () => {
 
 /*
   Create collection
-
   POST /api/collections
 */
 export const createCollection = async (
@@ -355,7 +57,6 @@ export const createCollection = async (
 
 /*
   Get all collections
-
   GET /api/collections
 */
 export const getCollections = async () => {
@@ -369,7 +70,6 @@ export const getCollections = async () => {
 
 /*
   Get single collection
-
   GET /api/collections/:id
 */
 export const getCollectionById = async (
@@ -385,7 +85,6 @@ export const getCollectionById = async (
 
 /*
   Update collection
-
   PUT /api/collections/:id
 */
 export const updateCollection = async (
@@ -403,7 +102,6 @@ export const updateCollection = async (
 
 /*
   Delete collection
-
   DELETE /api/collections/:id
 */
 export const deleteCollection = async (
@@ -419,7 +117,6 @@ export const deleteCollection = async (
 
 /*
   Add recipe to collection
-
   POST /api/collections/:collectionId/recipes/:recipeId
 */
 export const addRecipeToCollection = async (
@@ -436,7 +133,6 @@ export const addRecipeToCollection = async (
 
 /*
   Remove recipe from collection
-
   DELETE /api/collections/:collectionId/recipes/:recipeId
 */
 export const removeRecipeFromCollection = async (
@@ -453,7 +149,6 @@ export const removeRecipeFromCollection = async (
 
 /*
   Create review
-
   POST /api/reviews/recipe/:recipeId
 */
 export const createReview = async (
@@ -471,7 +166,6 @@ export const createReview = async (
 
 /*
   Get reviews of a recipe
-
   GET /api/reviews/recipe/:recipeId
 */
 export const getRecipeReviews = async (
@@ -487,7 +181,6 @@ export const getRecipeReviews = async (
 
 /*
   Update review
-
   PUT /api/reviews/:id
 */
 export const updateReview = async (
@@ -505,7 +198,6 @@ export const updateReview = async (
 
 /*
   Delete review
-
   DELETE /api/reviews/:id
 */
 export const deleteReview = async (
@@ -521,7 +213,6 @@ export const deleteReview = async (
 
 /*
   Follow user
-
   POST /api/follows/:userId
 */
 export const followUser = async (
@@ -537,7 +228,6 @@ export const followUser = async (
 
 /*
   Unfollow user
-
   DELETE /api/follows/:userId
 */
 export const unfollowUser = async (
@@ -553,7 +243,6 @@ export const unfollowUser = async (
 
 /*
   Get followers of a user
-
   GET /api/follows/:userId/followers
 */
 export const getFollowers = async (
@@ -569,7 +258,6 @@ export const getFollowers = async (
 
 /*
   Get users followed by a user
-
   GET /api/follows/:userId/following
 */
 export const getFollowing = async (
@@ -585,7 +273,6 @@ export const getFollowing = async (
 
 /*
   Get activity feed
-
   GET /api/feed
 */
 export const getFeed = async () => {
@@ -599,7 +286,6 @@ export const getFeed = async () => {
 
 /*
   Get all users for admin
-
   GET /api/admin/users
 */
 export const getAdminUsers = async () => {
@@ -613,7 +299,6 @@ export const getAdminUsers = async () => {
 
 /*
   Ban user
-
   PUT /api/admin/users/:id/ban
 */
 export const banUser = async (
@@ -629,7 +314,6 @@ export const banUser = async (
 
 /*
   Approve user
-
   PUT /api/admin/users/:id/approve
 */
 export const approveUser = async (
@@ -645,7 +329,6 @@ export const approveUser = async (
 
 /*
   Delete user
-
   DELETE /api/admin/users/:id
 */
 export const deleteUser = async (
@@ -661,7 +344,6 @@ export const deleteUser = async (
 
 /*
   Get all recipes for admin
-
   GET /api/admin/recipes
 */
 export const getAdminRecipes = async () => {
@@ -675,7 +357,6 @@ export const getAdminRecipes = async () => {
 
 /*
   Delete recipe by admin
-
   DELETE /api/admin/recipes/:id
 */
 export const adminDeleteRecipe = async (
